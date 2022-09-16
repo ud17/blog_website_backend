@@ -23,7 +23,7 @@ const options = {
 };
 
 // Routes
-//app.use('/blog' , blogs);
+app.use('/blog' , blogs);
 
 // mongodb connection
 mongoose.connect( URL, options ).then((result) => {
