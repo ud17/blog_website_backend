@@ -1,7 +1,7 @@
 const fs = require("fs");
 
 // Remove files if exists
-const doImageFileExists = async (file) => {
+const removeImageFileIfExists = async (file) => {
     if(file) {
 
         fs.unlink(file.path, (err) => {
@@ -12,5 +12,5 @@ const doImageFileExists = async (file) => {
 }
 
 module.exports = {
-    doImageFileExists
+    removeImageFileIfExists
 }
