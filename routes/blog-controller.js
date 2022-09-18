@@ -1,21 +1,34 @@
 const Blog = require("../model/Blog.js");
 const BlogHelper = require("./blog-helper.js");
 
-// getAllBlogs
+// get all blogs
 const getAllBlogs = async () => {
 
+    let blog, result = {};
+
+    // get all blogs
+    blog = await BlogHelper.getAllBlogs({});
+    
+    if(blog.databaseError) {
+        result.databaseError = true;
+        return result;
+    }
+
+    result.blogs = blog;
+    return result;
 }
 
 // create new blog
-const createNewBlog = async ({title, description, location, file}) => {
+const createNewBlog = async (req) => {
 
     let blog, result = {};
+    const {title, description, location} = req.body;
 
     let query = {
         title: title,
         description: description,
         location: location,
-        image: file.path,
+        image: req.file.path,
         views: 0
     }
 
@@ -27,11 +40,12 @@ const createNewBlog = async ({title, description, location, file}) => {
         return result;
     }
 
-    result.blogDetails = blog;
+    result.blog_details = blog;
     return result;
 }
 
 
 module.exports = {
+    getAllBlogs,
     createNewBlog
 }

@@ -10,17 +10,25 @@ const { body, validationResult } = require('express-validator');
 
 // Controller
 const BlogController = require("./blog-controller.js");
+const { query } = require("express");
 
 const router = express.Router();
 
-// path - /blog/get-all
-router.get("/get-all" , 
+// path - /blog/get-all-blogs
+// GET
+router.get("/get-all-blogs" ,
 
     async(req , res, next) => {
 
+        const response = await BlogController.getAllBlogs();
+
+        // send database error is exists
+        if(response.databaseError) return Response.error( res, ResponseCode.DATABASE_ERROR, ResponseMessage.ERROR_DATABASE);
+
+        // send success response
+        else if(response.blogs) return Response.success( res, ResponseCode.SUCCESS, ResponseMessage.SUCCESS_ALL_BLOGS_FOUND, response.blogs);
     }
 )
-
 
 // path - /blog/create-blog
 // POST
@@ -31,8 +39,8 @@ router.post("/create-blog" ,
 
     // Parameter Validators
     [
-        body("title").isLength(CONSTANT.TITLE_LENGTH).withMessage( ResponseMessage.ERROR_TITLE ),
-        body("description").isLength(CONSTANT.DESCRIPTION_LENGTH).withMessage( ResponseMessage.ERROR_DESCRIPTION ),
+        body("title").isLength(CONSTANT.BLOG_TITLE_LENGTH).withMessage( ResponseMessage.ERROR_TITLE ),
+        body("description").isLength(CONSTANT.BLOG_DESCRIPTION_LENGTH).withMessage( ResponseMessage.ERROR_DESCRIPTION ),
         body("location").notEmpty().withMessage( ResponseMessage.ERROR_LOCATION )
     ],
 
@@ -80,7 +88,7 @@ router.post("/create-blog" ,
         }
         
         // send success response if blog created
-        else if( response.blogDetails ) return Response.success( res, ResponseCode.SUCCESS, ResponseMessage.SUCCESS_BLOG_CREATED );
+        else if( response.blog_details ) return Response.success( res, ResponseCode.SUCCESS, ResponseMessage.SUCCESS_BLOG_CREATED, response.blog_details );
     }
 )
 

@@ -1,11 +1,12 @@
 module.exports = {
-    // Title length
-    TITLE_LENGTH: {
+    // Blog Title length
+    BLOG_TITLE_LENGTH: {
         min: 4,
         max: 20
     },
 
-    DESCRIPTION_LENGTH : {
+    // Blog Description Length
+    BLOG_DESCRIPTION_LENGTH : {
         min: 15,
         max: 50
     }

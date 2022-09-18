@@ -9,5 +9,6 @@ module.exports = {
     INVALID_IMAGE_MIMETYPE: "Invalid image file mimetype.",
 
     // General Success Messages
-    SUCCESS_BLOG_CREATED: "Blog has been created successfully."
+    SUCCESS_BLOG_CREATED: "Blog has been created successfully.",
+    SUCCESS_ALL_BLOGS_FOUND: "All blogs have been found successfully."
 }
