@@ -29,6 +29,22 @@ router.get("/get-all-blogs" ,
     }
 )
 
+// path - /blog/get-home-page
+// GET
+router.get("/get-home-page", 
+
+    async (req, res, next) => {
+
+        const response = await BlogController.getHomePageBlogs();
+
+        // send database error is exists
+        if(response.databaseError) return Response.error( res, ResponseCode.DATABASE_ERROR, ResponseMessage.ERROR_DATABASE);
+
+        // send success response otherwise
+        else if(response) return Response.success( res, ResponseCode.SUCCESS, ResponseMessage.SUCCESS_HOMEPAGE_BLOGS_FOUND, response);
+    }
+)
+
 // path - /blog/create-blog
 // POST
 router.post("/create-blog" ,

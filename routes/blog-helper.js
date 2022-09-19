@@ -1,7 +1,6 @@
-const { query } = require("express");
 const Blog = require("../model/Blog");
 
-// get all blog
+// get all blogs
 const getAllBlogs = async (query) => {
 
     let blog, result = {}
@@ -59,8 +58,45 @@ const incrementBlogViewByOne = async (query) => {
     return result;
 }
 
+// get latest blogs
+const getLatestBlogs = async (query, limit) => {
+
+    let latest, result = {};
+
+    try {
+        latest = await Blog.find(query).sort({"createdAt": -1}).limit(limit);
+
+    } catch (err) {
+        console.log(err);
+        result.databaseError = true;
+        return result;
+    }
+
+    result.latest = latest;
+    return result;
+}
+
+// get most viewed blogs
+const getMostViewedBlogs = async (query, limit) => {
+    let mostViewed, result = {};
+
+    try {
+        mostViewed = await Blog.find(query).sort({"views" : -1}).limit(limit);
+
+    } catch (err) {
+        console.log(err);
+        result.databaseError = true;
+        return result;
+    }
+
+    result.most_viewed = mostViewed;
+    return result;
+}
+
 module.exports = {
     getAllBlogs,
     createNewBlog,
-    incrementBlogViewByOne
+    incrementBlogViewByOne,
+    getLatestBlogs,
+    getMostViewedBlogs
 }
