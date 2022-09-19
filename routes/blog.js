@@ -6,11 +6,10 @@ const CONSTANT = require("../global/constants.js");
 const FileUpload = require("../middleware/upload-blog.js");
 const { removeImageFileIfExists } = require("../middleware/check-file.js")
 const { checkImageMimeType } = require("../middleware/check-mimetype.js")
-const { body, validationResult } = require('express-validator');
+const { body, validationResult, param } = require('express-validator');
 
 // Controller
 const BlogController = require("./blog-controller.js");
-const { query } = require("express");
 
 const router = express.Router();
 
@@ -89,6 +88,40 @@ router.post("/create-blog" ,
         
         // send success response if blog created
         else if( response.blog_details ) return Response.success( res, ResponseCode.SUCCESS, ResponseMessage.SUCCESS_BLOG_CREATED, response.blog_details );
+    }
+)
+
+// path - /blog/increment-blog-view/:blog_id
+// PATCH
+router.patch("/increment-blog-view/:blog_id",
+
+    [
+        param("blog_id").isMongoId().withMessage( ResponseMessage.INVALID_BLOG_ID )
+    ],
+
+    async (req, res, next) => {
+
+        // check if params are valid
+        const errors = validationResult(req)
+
+        if(!errors.isEmpty()) {
+
+            return Response.error(res , ResponseCode.BAD_REQUEST , errors.array().map((error) => ({
+                field: error.param,
+                errorMessage: error.msg
+            })));            
+        }
+
+        const blog_id = req.params.blog_id;
+
+        // method to increment blog view
+        const response = await BlogController.incrementBlogViewByOne(blog_id);
+
+        // send database error if exists
+        if(response.databaseError) return Response.error( res, ResponseCode.DATABASE_ERROR, ResponseMessage.ERROR_DATABASE);
+
+        // send success response
+        else if(response.blog) return Response.success( res, ResponseCode.SUCCESS, ResponseMessage.SUCCESS_BLOG_VIEW_INCREMENTED, response.blog);
     }
 )
 

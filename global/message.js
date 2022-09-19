@@ -7,8 +7,10 @@ module.exports = {
     ERROR_IMAGE_FILE_EMPTY: "Image File cannot be empty",
     
     INVALID_IMAGE_MIMETYPE: "Invalid image file mimetype.",
+    INVALID_BLOG_ID: "Blog id invalid.",
 
     // General Success Messages
     SUCCESS_BLOG_CREATED: "Blog has been created successfully.",
-    SUCCESS_ALL_BLOGS_FOUND: "All blogs have been found successfully."
+    SUCCESS_ALL_BLOGS_FOUND: "All blogs have been found successfully.",
+    SUCCESS_BLOG_VIEW_INCREMENTED: "Blog view has been incremented."
 }

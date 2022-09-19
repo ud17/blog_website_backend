@@ -44,8 +44,30 @@ const createNewBlog = async (req) => {
     return result;
 }
 
+// increment blog views
+const incrementBlogViewByOne = async (blog_id) => {
+
+    let blog, result = {};
+
+    let query = {
+        _id: blog_id 
+    };
+
+    // increment blog views method
+    blog = await BlogHelper.incrementBlogViewByOne(query);
+
+    if(blog.databaseError) {
+        result.databaseError = true;
+        return result;
+    }
+
+    result.blog = blog;
+    return result;
+}
+
 
 module.exports = {
     getAllBlogs,
-    createNewBlog
+    createNewBlog,
+    incrementBlogViewByOne
 }

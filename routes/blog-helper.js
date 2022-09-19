@@ -35,7 +35,32 @@ const createNewBlog = async (query) => {
     return result;
 }
 
+// increment blog views
+const incrementBlogViewByOne = async (query) => {
+
+    let blog, result = {};
+
+    try {
+        blog = await Blog.findOneAndUpdate(query, 
+            { $inc: {
+                views : 1
+            }},
+            {
+                returnOriginal: false
+            }
+        );
+    } catch (err) {
+        console.log(err);
+        result.databaseError = true;
+        return result;
+    }
+
+    result.blog = blog;
+    return result;
+}
+
 module.exports = {
     getAllBlogs,
-    createNewBlog
+    createNewBlog,
+    incrementBlogViewByOne
 }
