@@ -88,10 +88,38 @@ const incrementBlogViewByOne = async (blog_id) => {
     return result;
 }
 
+// update blog details
+const updateBlog = async (blog_id, req) => {
+
+    let updatedBlog, result = {};
+
+    let query = {
+        _id: blog_id
+    }
+
+    let newData = {
+        title: req.body.title,
+        description: req.body.description,
+        location: req.body.location,
+        file: req.file
+    };
+
+    updatedBlog = await BlogHelper.updateBlog(query, newData);
+
+    if(updatedBlog.databaseError) {
+        result.databaseError = true;
+        return result;
+    }
+
+    result.blog = updatedBlog.blog;
+    return result;
+}
+
 
 module.exports = {
     getAllBlogs,
     createNewBlog,
+    updateBlog,
     incrementBlogViewByOne,
     getHomePageBlogs
 }

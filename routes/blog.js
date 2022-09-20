@@ -54,8 +54,8 @@ router.post("/create-blog" ,
 
     // Parameter Validators
     [
-        body("title").isLength(CONSTANT.BLOG_TITLE_LENGTH).withMessage( ResponseMessage.ERROR_TITLE ),
-        body("description").isLength(CONSTANT.BLOG_DESCRIPTION_LENGTH).withMessage( ResponseMessage.ERROR_DESCRIPTION ),
+        body("title").isLength(CONSTANT.BLOG_TITLE_LENGTH).withMessage( ResponseMessage.ERROR_TITLE_LENGTH ),
+        body("description").isLength(CONSTANT.BLOG_DESCRIPTION_LENGTH).withMessage( ResponseMessage.ERROR_DESCRIPTION_LENGTH ),
         body("location").notEmpty().withMessage( ResponseMessage.ERROR_LOCATION )
     ],
 
@@ -138,6 +138,52 @@ router.patch("/increment-blog-view/:blog_id",
 
         // send success response
         else if(response.blog) return Response.success( res, ResponseCode.SUCCESS, ResponseMessage.SUCCESS_BLOG_VIEW_INCREMENTED, response.blog);
+    }
+)
+
+// path /blog/update-blog/:blog_id
+// PATCH
+router.patch("/update-blog/:blog_id",
+
+    // file upload middleware
+    FileUpload.single("image"),
+
+    [
+        body("title").isLength(CONSTANT.BLOG_TITLE_LENGTH).withMessage( ResponseMessage.ERROR_TITLE_LENGTH ).optional(),
+        body("description").isLength(CONSTANT.BLOG_DESCRIPTION_LENGTH).withMessage( ResponseMessage.ERROR_DESCRIPTION_LENGTH ).optional(),
+        body("location").notEmpty().withMessage( ResponseMessage.ERROR_LOCATION ).optional()
+    ],
+
+    async ( req, res, next) => {
+
+        // check if params are valid
+        const errors = validationResult(req)
+
+        if(!errors.isEmpty()) {
+            // remove file is exists
+            removeImageFileIfExists(req.file);
+
+            return Response.error(res , ResponseCode.BAD_REQUEST , errors.array().map((error) => ({
+                field: error.param,
+                errorMessage: error.msg
+            })));            
+        }
+
+        const blog_id = req.params.blog_id;
+
+        // method call to update blog
+        const response = await BlogController.updateBlog(blog_id, req);
+
+        // send database error if exist
+        if(response.databaseError) {
+            // remove file is exists
+            removeImageFileIfExists(req.file);
+            
+            return Response.error( res, ResponseCode.DATABASE_ERROR, ResponseMessage.ERROR_DATABASE);
+        }
+
+        // send success response otherwise
+        else if(response.blog) return Response.success( res, ResponseCode.SUCCESS, ResponseMessage.SUCCESS_BLOG_DETAILS_UPDATED, response.blog );
     }
 )
 

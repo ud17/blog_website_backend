@@ -1,3 +1,4 @@
+const { removeImageFileIfExists, removeImageFileUsingPath } = require("../middleware/check-file");
 const Blog = require("../model/Blog");
 
 // get all blogs
@@ -93,9 +94,45 @@ const getMostViewedBlogs = async (query, limit) => {
     return result;
 }
 
+// update blog
+const updateBlog = async (query, data) => {
+
+    let blog, result = {};
+
+    try {
+        blog = await Blog.findOne(query);
+
+        let previous_image = blog.image;
+
+        let newData = {
+            title: data.title ? data.title : blog.title,
+            description: data.description ? data.description : blog.description,
+            location: data.location ? data.location : blog.location,
+            image: data.file ? data.file.path : blog.image
+        }
+
+        blog = await Blog.findByIdAndUpdate(query, newData, { new: true});
+
+        if(data.file) removeImageFileUsingPath(previous_image);
+    } catch (err) {
+        console.log(err);
+        result.databaseError = true;
+        return result;
+    }
+
+    if(!blog) {
+        result.databaseError = true;
+        return result;
+    }
+
+    result.blog = blog;
+    return result;
+}
+
 module.exports = {
     getAllBlogs,
     createNewBlog,
+    updateBlog,
     incrementBlogViewByOne,
     getLatestBlogs,
     getMostViewedBlogs
