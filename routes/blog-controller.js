@@ -1,4 +1,4 @@
-const Blog = require("../model/Blog.js");
+const { ObjectId } = require('mongodb');
 const BlogHelper = require("./blog-helper.js");
 
 // get all blogs
@@ -94,7 +94,7 @@ const updateBlog = async (blog_id, req) => {
     let updatedBlog, result = {};
 
     let query = {
-        _id: blog_id
+        _id: ObjectId(blog_id)
     }
 
     let newData = {
@@ -116,10 +116,35 @@ const updateBlog = async (blog_id, req) => {
 }
 
 
+// delete a blog
+const deleteBlog = async (blog_id) => {
+
+    let blog, result = {};
+    let query = {
+        _id: ObjectId(blog_id)
+    }
+
+    // method call to delete a blog
+    blog = await BlogHelper.deleteBlog(query);
+
+    if(blog.databaseError) {
+        result.databaseError = true;
+        return result;
+    } 
+    else if (blog.blogNotFound) {
+        result.blogNotFound = true;
+        return result;
+    }
+
+    result.blogDeleted = blog.blogDeleted;
+    return result;
+}
+
 module.exports = {
     getAllBlogs,
     createNewBlog,
     updateBlog,
+    deleteBlog,
     incrementBlogViewByOne,
     getHomePageBlogs
 }

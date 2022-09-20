@@ -129,10 +129,38 @@ const updateBlog = async (query, data) => {
     return result;
 }
 
+// delete a blog
+const deleteBlog = async (query) => {
+
+    let blog, result = {};
+
+    try {
+        blog = await Blog.findById(query);
+
+        if(!blog) {
+            result.blogNotFound = true;
+            return result;
+        }
+
+        // remove blog as well as img
+        const img = blog.image;
+        await blog.remove();
+        await removeImageFileUsingPath(img);
+    } catch (err) {
+        console.log(err);
+        result.databaseError = true;
+        return result;
+    }
+
+    result.blogDeleted = true;
+    return result;
+}
+
 module.exports = {
     getAllBlogs,
     createNewBlog,
     updateBlog,
+    deleteBlog,
     incrementBlogViewByOne,
     getLatestBlogs,
     getMostViewedBlogs

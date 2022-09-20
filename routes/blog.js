@@ -141,7 +141,7 @@ router.patch("/increment-blog-view/:blog_id",
     }
 )
 
-// path /blog/update-blog/:blog_id
+// path - /blog/update-blog/:blog_id
 // PATCH
 router.patch("/update-blog/:blog_id",
 
@@ -184,6 +184,44 @@ router.patch("/update-blog/:blog_id",
 
         // send success response otherwise
         else if(response.blog) return Response.success( res, ResponseCode.SUCCESS, ResponseMessage.SUCCESS_BLOG_DETAILS_UPDATED, response.blog );
+    }
+)
+
+
+// path - /blog/delete-blog/:blog_id
+// DELETE
+router.delete("/delete-blog/:blog_id",
+
+    [
+        param("blog_id").notEmpty().withMessage(ResponseMessage.ERROR_BLOG_ID_EMPTY)
+    ],
+
+    async( req, res, next) => {
+        // check if params are valid
+        const errors = validationResult(req)
+
+        if(!errors.isEmpty()) {
+            // remove file is exists
+            removeImageFileIfExists(req.file);
+
+            return Response.error(res , ResponseCode.BAD_REQUEST , errors.array().map((error) => ({
+                field: error.param,
+                errorMessage: error.msg
+            })));            
+        }
+
+        const blog_id = req.params.blog_id;
+
+        const response = await BlogController.deleteBlog(blog_id);
+
+        // send database error if exists
+        if(response.databaseError) return Response.error( res, ResponseCode.DATABASE_ERROR, ResponseMessage.ERROR_DATABASE);
+
+        // send error if blog not found
+        else if(response.blogNotFound) return Response.error( res, ResponseCode.NOT_FOUND, ResponseMessage.ERROR_BLOG_NOT_FOUND);
+
+        // send success response otherwise
+        else if(response.blogDeleted) return Response.success( res, ResponseCode.SUCCESS, ResponseMessage.SUCCESS_BLOG_DELETED);
     }
 )
 
