@@ -18,25 +18,41 @@ const getAllBlogs = async () => {
     return result;
 }
 
-// get home page blogs
-const getHomePageBlogs = async () => {
+// get latest blogs
+const getLatestBlogs = async () => {
 
-    let latest, mostViewed, result = {};
+    let latest, result = {};
     // show 10 blogs at a time
     const BLOG_LIMIT = 10;
 
     // get latest blogs
     latest = await BlogHelper.getLatestBlogs({}, BLOG_LIMIT);
 
-    // get most viewed blogs
-    mostViewed = await BlogHelper.getMostViewedBlogs({}, BLOG_LIMIT);
-
-    if(latest.databaseError || mostViewed.databaseError) {
+    if(latest.databaseError) {
         result.databaseError = true;
         return result;
     }
 
     result.latest = latest.latest;
+    // result.most_viewed = mostViewed.most_viewed;
+    return result;
+}
+
+// get most viewed blogs
+const getMostViewedBlogs = async () => {
+
+    let mostViewed, result = {};
+    // show 10 blogs at a time
+    const BLOG_LIMIT = 10;
+
+    // get latest blogs
+    mostViewed = await BlogHelper.getMostViewedBlogs({}, BLOG_LIMIT);
+
+    if(mostViewed.databaseError) {
+        result.databaseError = true;
+        return result;
+    }
+
     result.most_viewed = mostViewed.most_viewed;
     return result;
 }
@@ -146,5 +162,6 @@ module.exports = {
     updateBlog,
     deleteBlog,
     incrementBlogViewByOne,
-    getHomePageBlogs
+    getLatestBlogs,
+    getMostViewedBlogs
 }

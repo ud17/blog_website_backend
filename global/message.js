@@ -17,7 +17,8 @@ module.exports = {
     SUCCESS_BLOG_CREATED: "Blog has been created successfully.",
     SUCCESS_ALL_BLOGS_FOUND: "All blogs have been found successfully.",
     SUCCESS_BLOG_VIEW_INCREMENTED: "Blog view has been incremented.",
-    SUCCESS_HOMEPAGE_BLOGS_FOUND: "All homepage blogs have been found successfully.",
+    SUCCESS_LATEST_BLOGS_FOUND: "Latest blogs have been found successfully.",
+    SUCCESS_MOST_VIEWED_BLOGS_FOUND: "Most Viewed blogs have been found successfully.",
     SUCCESS_BLOG_DETAILS_UPDATED: "Blog details have been updated successfully.",
     SUCCESS_BLOG_DELETED: "Blog has been deleted successfully."
 }

@@ -29,19 +29,35 @@ router.get("/get-all-blogs" ,
     }
 )
 
-// path - /blog/get-home-page
+// path - /blog/get-latest-blogs
 // GET
-router.get("/get-home-page", 
+router.get("/get-latest-blogs", 
 
     async (req, res, next) => {
 
-        const response = await BlogController.getHomePageBlogs();
+        const response = await BlogController.getLatestBlogs();
 
         // send database error is exists
         if(response.databaseError) return Response.error( res, ResponseCode.DATABASE_ERROR, ResponseMessage.ERROR_DATABASE);
 
         // send success response otherwise
-        else if(response) return Response.success( res, ResponseCode.SUCCESS, ResponseMessage.SUCCESS_HOMEPAGE_BLOGS_FOUND, response);
+        else if(response.latest) return Response.success( res, ResponseCode.SUCCESS, ResponseMessage.SUCCESS_LATEST_BLOGS_FOUND, response.latest);
+    }
+)
+
+// path - /blog/get-most-viewed-blogs
+// GET
+router.get("/get-most-viewed-blogs",
+
+    async (req, res, next) => {
+
+        const response = await BlogController.getMostViewedBlogs();
+
+        // send database error is exists
+        if(response.databaseError) return Response.error( res, ResponseCode.DATABASE_ERROR, ResponseMessage.ERROR_DATABASE);
+
+        // send success response otherwise
+        else if(response.most_viewed) return Response.success( res, ResponseCode.SUCCESS, ResponseMessage.SUCCESS_MOST_VIEWED_BLOGS_FOUND, response.most_viewed);
     }
 )
 
