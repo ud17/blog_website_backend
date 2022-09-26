@@ -20,5 +20,6 @@ module.exports = {
     SUCCESS_LATEST_BLOGS_FOUND: "Latest blogs have been found successfully.",
     SUCCESS_MOST_VIEWED_BLOGS_FOUND: "Most Viewed blogs have been found successfully.",
     SUCCESS_BLOG_DETAILS_UPDATED: "Blog details have been updated successfully.",
-    SUCCESS_BLOG_DELETED: "Blog has been deleted successfully."
+    SUCCESS_BLOG_DELETED: "Blog has been deleted successfully.",
+    SUCCESS_BLOG_FOUND: "Blog found successfully."
 }

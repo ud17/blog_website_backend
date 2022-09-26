@@ -18,6 +18,27 @@ const getAllBlogs = async () => {
     return result;
 }
 
+// get blog by id
+const getBlogById = async (blog_id) => {
+
+    let blog, result = {};
+
+    let query = {
+        _id: blog_id
+    }
+
+    // get blog by Id db call
+    blog = await BlogHelper.getAllBlogs(query);
+
+    if(blog.databaseError) {
+        result.databaseError = true;
+        return result;
+    }
+
+    result.blog = blog.blogs;
+    return result;
+}
+
 // get latest blogs
 const getLatestBlogs = async () => {
 
@@ -158,6 +179,7 @@ const deleteBlog = async (blog_id) => {
 
 module.exports = {
     getAllBlogs,
+    getBlogById,
     createNewBlog,
     updateBlog,
     deleteBlog,

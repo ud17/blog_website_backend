@@ -29,6 +29,23 @@ router.get("/get-all-blogs" ,
     }
 )
 
+// path - /blog/:blog_id
+// GET
+router.get("/get-blog/:blog_id",
+
+    async( req, res, next) => {
+        const blogId = req.params.blog_id;
+
+        const response = await BlogController.getBlogById(blogId);
+
+         // send database error is exists
+         if(response.databaseError) return Response.error( res, ResponseCode.DATABASE_ERROR, ResponseMessage.ERROR_DATABASE);
+         
+         // send success response otherwise
+         else if(response.blog) return Response.success( res, ResponseCode.SUCCESS, ResponseMessage.SUCCESS_BLOG_FOUND, response.blog);
+    }
+)
+
 // path - /blog/get-latest-blogs
 // GET
 router.get("/get-latest-blogs", 
