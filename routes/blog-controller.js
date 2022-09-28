@@ -35,7 +35,7 @@ const getBlogById = async (blog_id) => {
         return result;
     }
 
-    result.blog = blog.blogs;
+    result.blog = blog.blogs[0];
     return result;
 }
 

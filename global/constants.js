@@ -8,6 +8,6 @@ module.exports = {
     // Blog Description Length
     BLOG_DESCRIPTION_LENGTH : {
         min: 15,
-        max: 250
+        max: 500
     }
 }
