@@ -1,0 +1,20 @@
+# Do not change version. This is the version of aws buildspec, not the version of your buldspec file.
+version: 0.2
+os: ubuntu
+files:
+  - source: /
+    destination: /home/ec2-user/blog-app
+hooks:
+  ApplicationStop:
+    - location: scripts/application_stop.sh
+      timeout: 300
+      runas: ec2-user
+  BeforeInstall:
+    - location: scripts/before_install.sh
+      timeout: 300
+      runas: ec2-user
+  ApplicatiobStart:
+    - location: scripts/application_start.sh
+      timeout: 300
+      runas: ec2-user    
+        
