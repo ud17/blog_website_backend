@@ -1,6 +1,6 @@
 # Do not change version. This is the version of aws buildspec, not the version of your buldspec file.
 version: 0.2
-os: ubuntu
+os: linux
 files:
   - source: /
     destination: /home/ec2-user/blog-app
