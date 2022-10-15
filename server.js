@@ -18,7 +18,7 @@ app.use(express.json());
 // Comment
 // Testing CICD
 const URL = process.env.MONGO_URL;
-const VERSION = process.env.VERSION;
+const VERSION = 1.1//process.env.VERSION;
 const PORT = process.env.PORT;
 
 // Config options to pass in mongoose.connect() method
