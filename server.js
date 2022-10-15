@@ -14,6 +14,7 @@ app.use(cors());
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 
+// Running Version 1.0
 const URL = process.env.MONGO_URL;
 const VERSION = process.env.VERSION;
 const PORT = process.env.PORT;
