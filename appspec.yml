@@ -3,22 +3,19 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ec2-user/blog-app
+    destination: /home/ec2-user/express-app
+file_exists_behavior: OVERWRITE
 hooks:
-  # ApplicationStop:
-  #   - location: scripts/application_stop.sh
-  #     timeout: 300
-  #     runas: ec2-user
+  ApplicationStop:
+    - location: scripts/application_stop.sh
+      timeout: 300
+      runas: root
   BeforeInstall:
     - location: scripts/before_install.sh
       timeout: 300
-      runas: ec2-user
-  Install:
-    - location: scripts/on_install.sh
-      timeout: 300
-      runas: ec2-user
+      runas: root
   ApplicationStart:
     - location: scripts/application_start.sh
       timeout: 300
-      runas: ec2-user    
+      runas: root    
         

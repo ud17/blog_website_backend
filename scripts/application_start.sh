@@ -1,10 +1,10 @@
 #!/bin/bash
 
-#give permission for everything in the blog-app directory
-sudo chmod -R 777 /home/ec2-user/blog-app
+#give permission for everything in the express-app directory
+sudo chmod -R 777 /home/ec2-user/express-app
 
 #navigate into our working directory where we have all our github files
-cd /home/ec2-user/blog-app
+cd /home/ec2-user/express-app
 
 #add npm and node to path
 export NVM_DIR="$HOME/.nvm"	
@@ -15,5 +15,4 @@ export NVM_DIR="$HOME/.nvm"
 npm install
 
 #start our node app in the background
-#node server.js > app.out.log 2> app.err.log < /dev/null & 
-pm2 start server.js --name "Blog backend"
+node app.js > app.out.log 2> app.err.log < /dev/null & 
