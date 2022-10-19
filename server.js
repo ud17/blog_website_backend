@@ -33,7 +33,7 @@ app.use("/blog" , blogs);
 
 // home route
 app.get("/", (req, res) => {
-    res.send(`Welcome to Blog Node JS App Backend!\nVersion: ${VERSION}`);
+    res.send(`Welcome to Blog Node JS App Backend!\nVersion: ${VERSION}\nUpdate: Implement AWS SNS service!`);
 });
 
 // Error handling route
