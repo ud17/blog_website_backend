@@ -1,4 +1,4 @@
-const { removeImageFileIfExists, removeImageFileUsingPath } = require("../middleware/check-file");
+const { removeImageFileUsingPath } = require("../middleware/check-file");
 const Blog = require("../model/Blog");
 
 // get all blogs
