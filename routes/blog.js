@@ -130,7 +130,7 @@ router.post("/create-blog" ,
         // send database error if exists
         if(response.databaseError) {
             // remove image file
-            removeImageFileIfExists(req.file);
+            await removeImageFileIfExists(req.file);
 
             return Response.error( res, ResponseCode.DATABASE_ERROR, ResponseMessage.ERROR_DATABASE )
         }
